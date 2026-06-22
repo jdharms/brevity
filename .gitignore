@@ -1,0 +1,29 @@
+# Clojure / deps.edn
+/target/
+/classes/
+/checkouts/
+.cpcache/
+*.jar
+*.class
+
+# Calva / VS Code (Clojure)
+.calva/
+.clj-kondo/.cache/
+.lsp/.cache/
+.portal/
+
+# REPL / nREPL
+.nrepl-port
+.nrepl-history
+.prepl-port
+
+# Editor / OS
+.vscode/
+.DS_Store
+
+# Logs
+*.log
+
+# Local env / secrets
+.env
+.env.local
