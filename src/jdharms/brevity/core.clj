@@ -24,8 +24,6 @@
   (:import java.util.concurrent.atomic.AtomicLong
            (clojure.lang PersistentQueue)))
 
-
-
 (defn make-context [event system]
   {:event event
    :system system})
@@ -106,7 +104,7 @@
         (callback ctx)) ; here's where we'd check terminators when implemented
       (catch Throwable t
         (begin-error ctx stage interceptor t)))
-  ctx))
+    ctx))
 
 (defn- try-error
   "Invoke the interceptor's :error callback"
@@ -127,7 +125,7 @@
     ctx))
 
 (defn- execute-enter
-  [ctx] 
+  [ctx]
   (loop [ctx ctx]
     (let [queue (::queue ctx)
           interceptor (peek queue)]
@@ -162,7 +160,7 @@
               error (::error ctx)
               out (if error
                     (try-error ctx' interceptor error)
-                    (try-stage ctx' interceptor :leave)) ]
+                    (try-stage ctx' interceptor :leave))]
           (if (async-marker? out)
             (go-async interceptor :leave ctx out)
             (recur out)))))))
@@ -185,10 +183,10 @@
     {:type type
      :timestamp (jt/instant)})
 
-  (defn interceptor 
-    ([name enter] 
-     {:name name 
-      :enter enter 
+  (defn interceptor
+    ([name enter]
+     {:name name
+      :enter enter
       :leave nil})
     ([name enter leave]
      {:name name
@@ -197,14 +195,13 @@
 
   (def system {:state (atom {})})
 
-  (def adds-a-key (interceptor "adds-a-key" 
-                               (fn [ctx] 
-                                 (throw (Exception. "Failure")) 
-                                 (assoc ctx :my-new-key "here's a value")) 
+  (def adds-a-key (interceptor "adds-a-key"
+                               (fn [ctx]
+                                 (throw (Exception. "Failure"))
+                                 (assoc ctx :my-new-key "here's a value"))
                                (fn [ctx] (assoc ctx :another-key "added this on leave"))))
 
   (let [chain [adds-a-key]]
     (execute (make-context (event :test-event) system) chain))
 
-  (event :chat-message)
-  )
+  (event :chat-message))
