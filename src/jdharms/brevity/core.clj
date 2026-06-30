@@ -19,8 +19,7 @@
 ; license text above. This *file* retains it's EPL-1.0 license.
 
 (ns jdharms.brevity.core
-  (:require [java-time.api :as jt]
-            [clojure.test :as t])
+  (:require [java-time.api :as jt])
   (:import java.util.concurrent.atomic.AtomicLong
            (clojure.lang PersistentQueue)))
 
@@ -31,7 +30,7 @@
 (defn- name-for
   [interceptor]
   (or (get interceptor :name)
-      (pr-str interceptor)))
+      "anonymous interceptor"))
 
 (defn- into-queue [queue values]
   (into (or queue PersistentQueue/EMPTY) values))
@@ -101,7 +100,7 @@
   (if-let [callback (get interceptor stage)]
     (try
       (with-bindings (or (:bindings ctx) {})
-        (callback ctx)) ; here's where we'd check terminators when implemented
+        (callback ctx)) ; here's where we'd check terminators if/when implemented
       (catch Throwable t
         (begin-error ctx stage interceptor t)))
     ctx))
