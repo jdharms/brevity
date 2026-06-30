@@ -1,6 +1,6 @@
-(ns jdharms.brevity.core-test
+(ns jdharms.brevity.chain.core-test
   (:require [clojure.test :refer [deftest is testing]]
-            [jdharms.brevity.core :as sut]))
+            [jdharms.brevity.chain.core :as sut]))
 
 (defn test-ctx [] 
   (sut/make-context {:type :test-event} {}))

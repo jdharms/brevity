@@ -18,7 +18,7 @@
 ; as a guide.  I would consider this a derivative work and I'm including the original
 ; license text above. This *file* retains it's EPL-1.0 license.
 
-(ns jdharms.brevity.core
+(ns jdharms.brevity.chain.core
   (:require [java-time.api :as jt])
   (:import java.util.concurrent.atomic.AtomicLong
            (clojure.lang PersistentQueue)))
